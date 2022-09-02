@@ -1,0 +1,7 @@
+{% extends 'booker/bookermain.html'%} {% block content%}
+<div>
+    {% for payment_method in payment_methods%}
+    <p>{{payment_method.name}} -- {{payment_method.type}} -- {{payment_method.description}} -- {{payment_method.contact}} </p>
+    {%endfor%}
+</div>
+{% endblock content%}

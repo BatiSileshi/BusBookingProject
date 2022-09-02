@@ -2,8 +2,9 @@
 from django.db import models
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+# from django.contrib.auth.mixins import PermissionRequiredMixin
 from phonenumber_field.modelfields import PhoneNumberField
-# Create your models here.
+
 
 class MyUserManager(BaseUserManager):
     def create_user(self, full_name, email, phone_number, password=None):
@@ -71,24 +72,11 @@ class User(AbstractBaseUser):
     
     def has_module_perms(self, app_label):
         return True
-    
-    # @property
-    # def is_staff(self):
- 
-    #     return self.staff
 
-    # @property
-    # def is_admin(self):
-       
-    #     return self.admin
-    
     @property
     def active(self):
        
         return self.is_active
     
 
-    
-    
-    
-    
+

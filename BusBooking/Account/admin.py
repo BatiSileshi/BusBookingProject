@@ -20,6 +20,7 @@ class UserAdmin(UserAdmin):
         (None, {'fields': ('full_name', 'phone_number', 'email', 'password')}),
         # ('Personal info', {'fields': ()}),
         ('Permissions', {'fields': ('is_admin', 'is_routeadmin', 'is_busadmin', 'is_superuser')}),
+
     )
 
     add_fieldsets = (
