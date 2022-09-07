@@ -1,0 +1,31 @@
+{% extends 'booker/bookermain.html'%} {% block content%}
+<form action="" method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="hotel">Route:</label><br>
+        <input type="text" id="route" name="route" value="{{payment_info.route.name}} " readonly>
+    </div>
+    <div>
+        <label for="hotel">Payment Method:</label><br>
+        <input type="text" id="payment_method" name="payment_method" value="{{payment_info.payment_method.id}} " readonly>
+    </div>
+
+    <div>
+        <label for="account_holder">Account holder:</label><br>
+        <input type="text" id="account_holder" name="account_holder" value="{{payment_info.account_holder}}" required>
+    </div>
+    <div>
+        <label for="account_number">Account number:</label><br>
+        <input type="number" id="account_number" name="account_number" value="{{payment_info.account_number}}" required>
+    </div>
+    <div>
+        <label for="phone_number">Phone number:</label><br>
+        <input type="number" id="phone_number" name="phone_number" value="{{payment_info.phone_number}}" required>
+    </div>
+
+
+    <input type="submit" value="Update">
+
+</form>
+
+{% endblock content%}

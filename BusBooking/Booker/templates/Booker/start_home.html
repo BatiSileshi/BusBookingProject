@@ -1,1 +1,3 @@
 start home
+
+<h3>Hello {{request.user.username}} Welcome! </h3><a href="{% url 'Booker:home' request.user.id  %}">Go Manage your Route</a>

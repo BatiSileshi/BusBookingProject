@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Account',
+
     'Booker',
     'Bus_admin',
     'Customer',
@@ -74,7 +74,7 @@ TEMPLATES = [
         },
     },
 ]
-AUTH_USER_MODEL= 'Account.User'
+# AUTH_USER_MODEL= 'Account.User'
 WSGI_APPLICATION = 'BusBooking.wsgi.application'
 
 

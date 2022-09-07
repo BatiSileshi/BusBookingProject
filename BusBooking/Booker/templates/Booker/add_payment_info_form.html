@@ -1,0 +1,35 @@
+{% extends 'booker/bookermain.html'%} {% block content%}
+<form action="" method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="hotel">Route:</label><br>
+        <input type="text" id="route" name="route" value="{{route.name}} " readonly>
+    </div>
+    <div>
+        <label for="payment_method">Payment Method:</label> <br>
+        <select id="payment_method" name="payment_method">
+        {% for pymnt_method in pymnt_methods %} 
+  
+      <option name="payment_method" value="{{pymnt_method.id}}">{{pymnt_method.name}}</option>
+        {%endfor%}
+        </select>
+    </div>
+    <div>
+        <label for="account_holder">Account holder:</label><br>
+        <input type="text" id="account_holder" name="account_holder" required>
+    </div>
+    <div>
+        <label for="account_number">Account number:</label><br>
+        <input type="number" id="account_number" name="account_number" required>
+    </div>
+    <div>
+        <label for="phone_number">Phone number:</label><br>
+        <input type="number" id="phone_number" name="phone_number" required>
+    </div>
+
+
+    <input type="submit" value="Save">
+
+</form>
+
+{% endblock content%}

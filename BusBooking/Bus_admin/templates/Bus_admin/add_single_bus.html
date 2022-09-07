@@ -1,0 +1,38 @@
+{% extends 'bus_admin/bus_admin_main.html'%} {% block content%}
+<div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div>
+            <label for="bus">Bus Brand:</label><br>
+            <input type="text" id="bus" name="bus" value="{{bus.name}} " readonly>
+        </div>
+        <div>
+            <label for="bus_number">Bus Number:</label><br>
+            <input type="number" id="bus_number" name="bus_number" required>
+        </div>
+        <!-- 
+        <div>
+            <label for="bus_number">Bus Number:</label><br>
+            <input type="number" id="bus_number" name="bus_number" required>
+        </div> -->
+
+        <div>
+            <label for="bus_type">Bus Type:</label><br>
+            <input type="text" id="bus_type" name="bus_type" required>
+        </div>
+        <div>
+            <label for="bus_detail">Bus detail:</label><br>
+            <input type="text" id="bus_detail" name="bus_detail" required>
+        </div>
+        <div>
+            <label for="number_of_seats">Number of Seat:</label><br>
+            <input type="number" id="number_of_seats" name="number_of_seats" required>
+        </div>
+
+
+
+        <input type="submit" value="Save">
+
+    </form>
+</div>
+{% endblock content%}

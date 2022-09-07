@@ -1,14 +1,9 @@
 from multiprocessing import context
 from django.shortcuts import get_object_or_404, render, redirect
-
 from django.contrib import messages
 from django.db.models import Q
-from django.contrib.auth import get_user_model
-User = get_user_model()
-from Account.forms import UserRegisterForm
-
 from .models import Booking
-from Account.models import User
+from django.contrib.auth.models import User
 from Bus_admin.models import Route,  Single_Bus, Seat, SubRoute
 from Booker.models import FinishPayment
 from System_admin.models import Bus
@@ -17,9 +12,11 @@ from django.contrib.auth.forms import UserCreationForm
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
+from .decorators import unauthenticated_user, allowed_users, admin_only
 
 
 # Create your views here.
+
 
 def home(request):
     q=request.GET.get('q') if request.GET.get('q') != None else ''
@@ -43,8 +40,9 @@ def route(request, pk):
     context={'route':route, 'subroutes':subroutes}
     return render(request, 'Customer/route.html', context)
 
-def booking(request, pk):
+@login_required(login_url='login')
 
+def booking(request, pk):
     subroute = get_object_or_404(SubRoute, id=pk)
     seats=Seat.objects.all()
     if request.method=='POST':
@@ -68,13 +66,16 @@ def booking(request, pk):
     context={'seats':seats}
     return render(request, 'Customer/booking.html', context)
     
-    
+@login_required(login_url='login') 
+  
 def myBooking(request, pk):
     user = get_object_or_404(User, id=pk)
     bookings=user.booking_set.filter().order_by('-created')
     
     context={'bookings':bookings}
     return render(request, 'Customer/my_booking.html', context)
+
+@login_required(login_url='login')
 
 def pay(request, pk):
     booking = get_object_or_404(Booking, id=pk)
@@ -92,18 +93,19 @@ def pay(request, pk):
     context={'booking':booking, 'payment_infos':payment_infos}
     return render(request, 'Customer/pay.html', context)
 
+@unauthenticated_user
 def loginPage(request):
     page='login'
     if request.method=='POST':
-        phone_number=request.POST.get('phone_number')
+        username=request.POST.get('username')
         password=request.POST.get('password')
 
         try:
-             user=User.objects.get(phone_number=phone_number)
-           
+             user=User.objects.get(username=username)
+ 
         except:
             messages.error(request, 'Sorry! User does not exist.')
-        user=authenticate(request, phone_number=phone_number, password=password)
+        user=authenticate(request, username=username, password=password)
         
         if user is not None:
            
@@ -112,9 +114,9 @@ def loginPage(request):
                 return redirect(request.POST.get('next'))
 
             else: 
-                return redirect('home')
+                return redirect('Booker:booker-home')
         else :
-          messages.error(request, 'Sorry! phone_number or password does not exist.')  
+          messages.error(request, 'Sorry! username or password does not exist.')  
     context={'page':page}
     return render(request, 'Customer/login_register.html', context)
 
@@ -123,13 +125,13 @@ def logoutUser(request):
     logout(request)
     return redirect('home')
 
-
+@unauthenticated_user
 def registerPage(request):
     page='register'
-    form=UserRegisterForm()
+    form=UserCreationForm()
     
     if request.method =='POST':
-        form = UserRegisterForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
             user=form.save()
             user.is_active = True

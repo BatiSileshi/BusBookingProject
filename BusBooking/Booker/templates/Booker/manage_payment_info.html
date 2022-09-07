@@ -1,7 +1,10 @@
 {% extends 'booker/bookermain.html'%} {% block content%}
 <div>
-    {% for payment_method in payment_methods%}
-    <p>{{payment_method.name}} -- {{payment_method.type}} -- {{payment_method.description}} -- {{payment_method.contact}} </p>
+    <h2>{{route.name}} </h2>
+    <p><a href="{% url 'Booker:add-payment_info' route.id %}">Add Payment Information</a></p>
+    {% for payment_info in payment_infos %}
+
+    <p> {{payment_info.payment_method}} -- {{payment_info.account_number}}-- {{payment_info.account_holder}}-- {{payment_info.phone_number}} -- <a href="{% url 'Booker:update-payment_info' payment_info.id %}">Edit</a> -- <a href="{% url 'Booker:delete-payment_info' payment_info.id %}">Delete</a></p>
     {%endfor%}
 </div>
 {% endblock content%}

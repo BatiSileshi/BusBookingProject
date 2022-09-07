@@ -1,8 +1,15 @@
 from django.db import models
-from django.conf import settings
-User = settings.AUTH_USER_MODEL
+from django.contrib.auth.models import User
 
 # Create your models here.
+
+class UserType(models.Model):
+    user=models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,related_name="user_type")
+    type=models.CharField(max_length=20,  null=True)
+    
+    def __str__(self):
+        return str((self.user.username, self.type))
+
 
 class Bus(models.Model):
     name=models.CharField(max_length=255, null=True)
@@ -14,10 +21,17 @@ class Bus(models.Model):
     
     def __str__(self):
         return self.name
-
-class BusAdmin(models.Model):
-    user=models.ForeignKey(User, null=True, on_delete=models.CASCADE)
-    bus=models.ForeignKey(Bus, null=True, on_delete=models.CASCADE)
+    
+    
+class PaymentMethod(models.Model):
+    name = models.CharField(max_length=55)
+    type = models.CharField(max_length=55)
+    # logo = models.ImageField(max_length=55)
+    description = models.TextField()
+    code = models.IntegerField()
+    contact = models.IntegerField()
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.bus.name
+        return self.name

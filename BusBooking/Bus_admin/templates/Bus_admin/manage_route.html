@@ -1,0 +1,8 @@
+{% extends 'bus_admin/bus_admin_main.html'%} {% block content%}
+<div>
+    {% for subroute in subroutes%}
+
+    <p>{{subroute.main_route.name}}</p>
+    {% endfor %}
+</div>
+{% endblock content%}

@@ -1,6 +1,5 @@
 from django.db import models
-from django.conf import settings
-User = settings.AUTH_USER_MODEL
+from django.contrib.auth.models import User
 from System_admin.models import Bus
 from Bus_admin.models import Route,  Single_Bus, SubRoute
 # Create your models here.

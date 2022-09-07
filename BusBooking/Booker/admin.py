@@ -1,8 +1,22 @@
 from django.contrib import admin
-from .models import PaymentInformantion, PaymentMethod, FinishPayment, FinishPaymentStatus
+from .models import PaymentInformation, FinishPayment, FinishPaymentStatus
+from System_admin.models import PaymentMethod
 # Register your models here.
 
-admin.site.register(PaymentInformantion)
-admin.site.register(PaymentMethod)
+
+# class ChoiceInline(admin.TabularInline):
+#     model = PaymentInformantion
+#     extra = 3
+
+
+# class PaymentMethodAdmin(admin.ModelAdmin):
+#     fieldsets = [
+#         (None,               {'fields': ['account_holder', 'account_number', 'phone_number']}),
+
+#     ]
+#     inlines = [ChoiceInline]
+
+# admin.site.register(PaymentMethod, PaymentMethodAdmin)
+admin.site.register(PaymentInformation)
 admin.site.register(FinishPayment)
 admin.site.register(FinishPaymentStatus)

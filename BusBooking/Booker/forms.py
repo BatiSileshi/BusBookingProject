@@ -1,16 +1,15 @@
 from django.forms import ModelForm
 from django.conf.urls.static import static 
-from .models import PaymentMethod, PaymentInformantion
+from .models import PaymentInformation
 
 
 
-class PaymentMethodForm(ModelForm):
-    class Meta:
-        model=PaymentMethod
-        fields='__all__'
+
      
      
 class PaymentInformationForm(ModelForm):
     class Meta:
-        model=PaymentInformantion
+        model=PaymentInformation
         fields='__all__'
+      
+        

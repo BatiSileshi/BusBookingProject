@@ -1,7 +1,7 @@
 {% extends 'customer/customermain.html'%} {% block content%}
 
 
-
+<a href="{% url 'admin:index' %}">Admin</a>
 <div>
     <h2>Routes</h2>
     {% for route in routes %}

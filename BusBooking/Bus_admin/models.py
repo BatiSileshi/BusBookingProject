@@ -1,6 +1,5 @@
 from django.db import models
-from django.conf import settings
-User = settings.AUTH_USER_MODEL
+from django.contrib.auth.models import User
 from System_admin.models import Bus
 # Create your models here.
 
@@ -18,7 +17,7 @@ class Single_Bus(models.Model):
         return str((self.bus.name, self.bus_number))
 
 class Route(models.Model):
-    route_admin=models.ManyToManyField(User, related_name="route_admin")
+    route_admin=models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     name=models.CharField(max_length=255, null=True)
     start=models.CharField(max_length=255, null=True)
     destination=models.CharField(max_length=255, null=True)
@@ -35,31 +34,35 @@ class Route(models.Model):
     def __str__(self):
         return str(self.name)
      
+  
+
    
 "Because every Route may have more than one bus"
     
 class SubRoute(models.Model):
+    sub_route_admin=models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     main_route=models.ForeignKey(Route, on_delete=models.CASCADE, null=True)
     bus=models.ForeignKey(Single_Bus, on_delete=models.SET_NULL, null=True)
+    
     
     def __str__(self):
         return str((self.main_route.name, self.bus.bus.name, self.bus.bus_number)) 
 
 
-class SubRouteAdmin(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    sub_route=models.ForeignKey(SubRoute, on_delete=models.CASCADE, null=True)
+# class SubRouteAdmin(models.Model):
+#     user=models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+#     sub_route=models.ForeignKey(SubRoute, on_delete=models.CASCADE, null=True)
     
-    def __str__(self):
-        return (self.user.full_name)
+#     def __str__(self):
+#         return (self.user.username)
         
 
-class SubRouteBusAdmin(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    subroute_bus=models.ManyToManyField(Single_Bus)
+# class SubRouteBusAdmin(models.Model):
+#     user=models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+#     subroute_bus=models.ManyToManyField(Single_Bus)
     
-    def __str__(self):
-        return (self.user.full_name)
+#     def __str__(self):
+#         return (self.user.username)
 
 """I added this class for seat"""
 "You need to add bunch of seat_no (1, 2,3,4,5,6,..."

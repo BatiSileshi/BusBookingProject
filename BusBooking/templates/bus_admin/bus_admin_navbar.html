@@ -1,0 +1,7 @@
+<div>
+
+    <a href="{% url 'Bus_admin:home' request.user.id %}">Home</a>
+
+    <p> {% for bus in buses%} <a href="{% url 'Bus_admin:manage-single-bus' bus.id %}">Manage Single Bus</a> {% endfor %}
+</div>
+<hr>
