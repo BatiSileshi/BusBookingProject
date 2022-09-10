@@ -3,11 +3,12 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from django.db.models import Q
 from .models import Booking
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from Bus_admin.models import Route,  Single_Bus, Seat, SubRoute
 from Booker.models import FinishPayment
 from System_admin.models import Bus
 from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponse
 ### please do not import all classes from .models because there may be error while login
 
 from django.contrib.auth import authenticate, login, logout
@@ -41,7 +42,6 @@ def route(request, pk):
     return render(request, 'Customer/route.html', context)
 
 @login_required(login_url='login')
-
 def booking(request, pk):
     subroute = get_object_or_404(SubRoute, id=pk)
     seats=Seat.objects.all()
@@ -58,7 +58,7 @@ def booking(request, pk):
         travel_begin_time=subroute.main_route.travel_begin_time,
         travaler_name=request.POST['travaler_name'],
         traveler_contact=request.POST['traveler_contact'],
-        seat=request.POST.get('seat'),
+        seat_quantity=request.POST.get('seat_quantity'),
         
         )
         return redirect ('my-booking', pk=request.user.id)
@@ -67,19 +67,19 @@ def booking(request, pk):
     return render(request, 'Customer/booking.html', context)
     
 @login_required(login_url='login') 
-  
 def myBooking(request, pk):
     user = get_object_or_404(User, id=pk)
     bookings=user.booking_set.filter().order_by('-created')
     
     context={'bookings':bookings}
+    if request.user != user: 
+        return HttpResponse("You are not allowed here!")
     return render(request, 'Customer/my_booking.html', context)
 
 @login_required(login_url='login')
-
 def pay(request, pk):
     booking = get_object_or_404(Booking, id=pk)
-    payment_infos=booking.route.paymentinformantion_set.all()
+    payment_infos=booking.route.paymentinformation_set.all()
     
     if request.method == 'POST':
         finishpymnt=FinishPayment.objects.create(
@@ -87,10 +87,12 @@ def pay(request, pk):
         payment_method_id=request.POST['payment_method'],
         paid_by=request.POST['paid_by'],
         transaction_id=request.POST['transaction_id'],
+        screenshot=request.FILES.get('screenshot'),
         )
         return redirect ('my-booking', pk=request.user.id)
     
     context={'booking':booking, 'payment_infos':payment_infos}
+
     return render(request, 'Customer/pay.html', context)
 
 @unauthenticated_user
@@ -134,9 +136,12 @@ def registerPage(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user=form.save()
-            user.is_active = True
+            
+            group=Group.objects.get(name='customer')
+            user.groups.add(group)
+   
             user.save()
-            return redirect('home')
+            return redirect('login')
         else:
             messages.error(request, "An error occured during registration")
     context={'page':page, 'form':form}

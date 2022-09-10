@@ -7,14 +7,14 @@
             <input type="text" id="bus" name="bus" value="{{bus.name}} " readonly>
         </div>
         <div>
-            <label for="bus_number">Bus Number:</label><br>
-            <input type="number" id="bus_number" name="bus_number" required>
+            <label for="plate_number">Bus Plate Number:</label><br>
+            <input type="text" id="plate_number" name="plate_number" min="1" required>
         </div>
-        <!-- 
+
         <div>
             <label for="bus_number">Bus Number:</label><br>
-            <input type="number" id="bus_number" name="bus_number" required>
-        </div> -->
+            <input type="number" id="bus_number" name="bus_number" min="1" required>
+        </div>
 
         <div>
             <label for="bus_type">Bus Type:</label><br>
@@ -26,7 +26,7 @@
         </div>
         <div>
             <label for="number_of_seats">Number of Seat:</label><br>
-            <input type="number" id="number_of_seats" name="number_of_seats" required>
+            <input type="number" id="number_of_seats" name="number_of_seats" min="1" required>
         </div>
 
 

@@ -15,6 +15,8 @@ def startHome(request):
     context={}
     return render(request, 'Bus_admin/start_home.html', context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['busadmin'])
 def home(request, pk):
     user=get_object_or_404(User, id=pk)
     buses=user.bus_set.all()
@@ -26,6 +28,8 @@ def home(request, pk):
     return render(request, 'Bus_admin/home.html', context)
 
 """Managing single bus"""
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['busadmin'])
 def manageSingleBus(request, pk):
     bus=get_object_or_404(Bus, id=pk)
     single_buses=bus.single_bus_set.all()
@@ -34,11 +38,14 @@ def manageSingleBus(request, pk):
         return HttpResponse("You are not allowed here!")
     return render(request, 'Bus_admin/manage_single_bus.html', context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['busadmin'])
 def addSingleBus(request, pk):
     bus=get_object_or_404(Bus, id=pk)
     if request.method == 'POST':
        singlebus=Single_Bus.objects.create(
           bus=bus,
+          plate_number=request.POST['plate_number'], 
           bus_number=request.POST['bus_number'], 
           bus_type=request.POST['bus_type'], 
           bus_detail=request.POST['bus_detail'], 
@@ -50,11 +57,14 @@ def addSingleBus(request, pk):
         return HttpResponse("You are not allowed here!")
     return render(request, 'Bus_admin/add_single_bus.html', context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['busadmin'])
 def updateSingleBus(request, pk):
     single_bus=get_object_or_404(Single_Bus, id=pk)
     if request.method == 'POST':
        singlebus=Single_Bus.objects.filter(id=pk).update(
           bus=single_bus.bus,
+          plate_number=request.POST['plate_number'], 
           bus_number=request.POST['bus_number'], 
           bus_type=request.POST['bus_type'], 
           bus_detail=request.POST['bus_detail'], 
@@ -65,7 +75,9 @@ def updateSingleBus(request, pk):
     if request.user != single_bus.bus.bus_admin:
         return HttpResponse("You are not allowed here!")
     return render(request, 'Bus_admin/update_single_bus.html', context)
-    
+ 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['busadmin'])   
 def deleteSingleBus(request, pk):
     single_bus=get_object_or_404(Single_Bus, id=pk)
     if request.method=='POST':
@@ -77,6 +89,8 @@ def deleteSingleBus(request, pk):
 """End of single bus management"""
 
 """Managing Route  and SubRoute"""
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['busadmin'])
 def addRoute(request):
     form=RouteForm()
     
@@ -87,8 +101,10 @@ def addRoute(request):
             return redirect('Bus_admin:bus_admin-home')
         
     context={'form':form}
-    return render(request, 'Bus_admin/route_form.html', context)
-
+    return render(request, 'Bus_admin/route_form.html', context)\
+        
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['busadmin'])
 def updateRoute(request, pk):
     subroute =get_object_or_404(SubRoute, id=pk)
     form =RouteForm(instance=subroute.main_route)
@@ -104,6 +120,8 @@ def updateRoute(request, pk):
         return HttpResponse("You are not allowed here!")
     return render(request, 'Bus_admin/route_form.html', context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['busadmin'])
 def addSubRoute(request):
     form=SubRouteForm()
     
@@ -116,6 +134,8 @@ def addSubRoute(request):
     context={'form':form}
     return render(request, 'Bus_admin/add_sub_route_form.html', context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['busadmin'])
 def updateSubRoute(request, pk):
     subroute=get_object_or_404(SubRoute, id=pk)
     form =SubRouteForm(instance=subroute)
@@ -140,6 +160,8 @@ def updateSubRoute(request, pk):
 #         return HttpResponse("You are not allowed here!")
 #     return render(request, 'Booker/delete.html', {'obj':subroute.main_route})
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['busadmin'])
 def deleteSubRoute(request, pk):
     subroute=get_object_or_404(SubRoute, id=pk)
     if request.method=='POST':

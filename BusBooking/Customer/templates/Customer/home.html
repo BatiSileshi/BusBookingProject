@@ -1,24 +1,166 @@
 {% extends 'customer/customermain.html'%} {% block content%}
 
 
-<a href="{% url 'admin:index' %}">Admin</a>
-<div>
-    <h2>Routes</h2>
-    {% for route in routes %}
-    <p><a href="{% url 'route' route.id %}">{{route.name}}</a></p>
-    {%endfor%}
-</div>
+<section id="hero" class="hero d-flex align-items-center mt-0">
+    <div class="container">
+        <div class=" d-flex flex-column align-content-center justify-content-center">
+            <h2 data-aos="fade-up">Book a bus of your route choice</h2>
+            <p data-aos="fade-up" data-aos-delay="100">Go farther in Ethiopia</p>
+        </div>
+        <form action="#" class="form-search  ">
+
+            <div class="row ">
+
+                <div class="col-lg-12  col-md-10 mt-2  d-flex justify-content-center ">
+                    <form method="GET" action="{% url 'home' %}">
+                        <input type="text" name="q" class="form-control" placeholder="Search route, start, destination or date of travel ...">
+                        <button type="submit" class="btn btn-primary">Search </button>
+                    </form>
+                </div>
+
+            </div>
+
+        </form>
+
+</section>
 
 
-<div>
-    <h2>Route Start</h2>
-    <p><a href="{% url 'home' %}">All </a></p>
 
-    {% for route in routes %}
-    <p><a href="{% url 'home' %}?q={{route.start}}">{{route.start}}</a></p>
 
-    {%endfor%}
-</div>
+
+<main id="main">
+    <section id="service" class="services pt-0">
+        <div class="container">
+
+            <div class="section-header">
+                <span>Routes</span>
+                <h2>Routes</h2>
+
+            </div>
+
+            <div class="row gy-4">
+                {% for route in routes %}
+                <div class="col-lg-3 col-md-4">
+                    <div class="card">
+
+                        <h3><a href="{% url 'route' route.id %}" class="stretched-link">{{route.name}}</a></h3>
+                        <p>Travel from {{route.start}} to {{route.destination}}</p>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ======= Frequently Asked Questions Section ======= -->
+    <section id="faq" class="faq">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-header">
+                <span>More Info</span>
+                <h2>More info</h2>
+
+            </div>
+
+            <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="200">
+
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <!-- # Faq item-->
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <h6 class="justify-content-center"> Search bus by your travel start</h6>
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-2">
+                                    <ul>
+                                 <a href="{% url 'home' %}"> <li>
+                                    <i class="bi bi-question-circle question-icon"></i>
+                                    All
+                                  </li></a>
+                                  {% for route in routes %}
+                                
+                                    
+                                    <a href="{% url 'home' %}?q={{route.start}}"><li>
+                                        <i class="bi bi-question-circle question-icon"></i>{{route.start}}</li></a>
+                                 
+                                  {%endfor%}
+
+                                    </ul>
+                                    
+                                </button>
+
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <!-- # Faq item-->
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <h6 class="justify-content-center"> Search bus by your travel destination</h6>
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-2">
+                                    <ul>
+                                 <a href="{% url 'home' %}"> <li>
+                                    <i class="bi bi-question-circle question-icon"></i>
+                                    All
+                                  </li></a>
+                                  {% for route in routes %}
+                                
+                                    
+                                    <a href="{% url 'home' %}?q={{route.destination}}"><li>
+                                        <i class="bi bi-question-circle question-icon"></i>{{route.destination}}</li></a>
+                                 
+                                  {%endfor%}
+
+                                    </ul>
+                                    
+                                </button>
+
+                            </h3>
+                        </div>
+                    </div>
+                    <!-- 
+                    <div class="col-lg-4 col-md-6">
+                       
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <h6 class="justify-content-center"> Search bus by travel date</h6>
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-2">
+                                    <ul>
+                                 <a href="{% url 'home' %}"> <li>
+                                    <i class="bi bi-question-circle question-icon"></i>
+                                    All
+                                  </li></a>
+                                  {% for route in routes %}
+                                
+                                    
+                                    <a href="{% url 'home' %}?q={{route.travel_date}}"><li>
+                                        <i class="bi bi-question-circle question-icon"></i>{{route.travel_date}}</li></a>
+                                 
+                                  {%endfor%}
+
+                                    </ul>
+                                    
+                                </button>
+
+                            </h3>
+                        </div>
+                    </div> -->
+
+                </div>
+
+            </div>
+        </div>
+
+        </div>
+    </section>
+    <!-- End Frequently Asked Questions Section -->
+
+</main>
+<!-- End #main -->
+
 
 
 

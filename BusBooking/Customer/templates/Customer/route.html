@@ -1,38 +1,49 @@
 {% extends 'customer/customermain.html'%} {% block content%}
 
-<div>
-    <table>
-        <tr>
-            <th>Traveling Bus</th>
-            <th>Bus Number</th>
-            <th>Travel start</th>
-            <th>Travel Destination</th>
-            <th>Via Cities</th>
-            <th>Travel Distance</th>
-            <th>Teavel Approximate Time</th>
-            <th>Single seat price</th>
-            <th>Travel Date</th>
-            <th>Travel Begin Time</th>
-            <th>Travel Facility</th>
-        </tr>
-        {% for subroute in subroutes %}
-        <tr>
-            <td>{{subroute.bus.bus.name}}</td>
-            <td>{{subroute.bus.bus_number}}</td>
-            <td>{{route.start}}</td>
-            <td>{{route.destination}}</td>
-            <td>{{route.via_cities}}</td>
-            <td>{{route.travel_distance}} km</td>
-            <td>{{route.travel_aproximate_time}}</td>
-            <td>{{route.single_seat_price}}</td>
-            <td>{{route.travel_date}}</td>
-            <td>{{route.travel_begin_time}}</td>
-            <td>{{route.travel_facilities}}</td>
-            <td><a href="{% url 'booking' subroute.id %}">Book</a></td>
-        </tr>
-        {%endfor%}
-    </table>
-</div>
+
+<main id="main">
+
+
+
+
+    <section>
+        <div class="container">
+
+            <div class="row gy-4">
+                {% for subroute in subroutes %}
+                <div class="col-lg-4 col-md-4">
+                    <div class="card">
+
+                        <h3 class="text-center">{{route.name}}</h3>
+                        <ul>
+                            <li>Traveling bus: {{subroute.bus.bus.name}}</li>
+                            <li>Traveling bus type: {{subroute.bus.plate_number}} - {{subroute.bus.bus_number}}</li>
+                            <li>Travel start:{{route.start}}</li>
+                            <li>Travel destination:{{route.destination}}</li>
+                            <li>Via cities: {{route.via_cities}}</li>
+                            <li>Distance: {{route.travel_distance}} km</li>
+                            <li>Travel approximate time length: {{route.travel_aproximate_time}}</li>
+                            <li>Single ticket price: {{route.single_seat_price}}</li>
+                            <li>Travel date: {{route.travel_date}}</li>
+                            <li>Travel begin time: {{route.travel_begin_time}}</li>
+                            <li>Bus facilities: {{route.travel_facilities}}</li>
+                        </ul>
+
+                        <a href="{% url 'booking' subroute.id %}" class="text-center"><button class="btn btn-primary">Book Now</button></a>
+                    </div>
+                </div>
+                {%endfor%}
+                <!-- End Card Item -->
+
+            </div>
+        </div>
+    </section>
+
+
+
+
+</main>
+
 
 
 {%endblock content%}

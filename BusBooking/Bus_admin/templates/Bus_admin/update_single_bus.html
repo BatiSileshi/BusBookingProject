@@ -6,15 +6,17 @@
             <label for="bus">Bus Brand:</label><br>
             <input type="text" id="bus" name="bus" value="{{single_bus.bus.name}}" readonly>
         </div>
+
+        <div>
+            <label for="plate_number">Bus Plate Number:</label><br>
+            <input type="text" id="plate_number" name="plate_number" min="1" value="{{single_bus.plate_number}}" required>
+        </div>
+
         <div>
             <label for="bus_number">Bus Number:</label><br>
             <input type="number" id="bus_number" name="bus_number" value="{{single_bus.bus_number}}" required>
         </div>
-        <!-- 
-        <div>
-            <label for="bus_number">Bus Number:</label><br>
-            <input type="number" id="bus_number" name="bus_number" required>
-        </div> -->
+
 
         <div>
             <label for="bus_type">Bus Type:</label><br>

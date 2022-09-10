@@ -30,7 +30,7 @@ def admin_only(view_func):
         if group=='admin':
             return redirect('admin:index')
         if group=='customer':
-            return redirect('Customer:home')
+            return redirect('home')
         if group == 'booker':
             return view_func(request, *args, **kwargs)
     return wrapper_function

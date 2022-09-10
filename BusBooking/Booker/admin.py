@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PaymentInformation, FinishPayment, FinishPaymentStatus
+from .models import PaymentInformation, FinishPayment, FinishPaymentStatus, AssignSeat
 from System_admin.models import PaymentMethod
 # Register your models here.
 
@@ -20,3 +20,4 @@ from System_admin.models import PaymentMethod
 admin.site.register(PaymentInformation)
 admin.site.register(FinishPayment)
 admin.site.register(FinishPaymentStatus)
+admin.site.register(AssignSeat)

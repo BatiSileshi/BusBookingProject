@@ -1,7 +1,8 @@
 {% extends 'bus_admin/bus_admin_main.html'%} {% block content%}
 <div>
     <a href="{% url 'Bus_admin:add-single-bus' bus.id %}">Add Single Bus</a> {% for single_bus in single_buses%}
-    <p>{{single_bus.bus.name}} - {{single_bus.bus_number}} - {{single_bus.bus_type}} - {{single_bus.bus_detail}} - {{single_bus.number_of_seats}} - <a href="{% url 'Bus_admin:update-single-bus' single_bus.id %}">Update</a> - <a href="{% url 'Bus_admin:delete-single-bus' single_bus.id %}">Delete</a></p>
+    <p>{{single_bus.bus.name}} - {{single_bus.plate_number}} - {{single_bus.bus_number}}- {{single_bus.bus_type}} - {{single_bus.bus_detail}} - {{single_bus.number_of_seats}} - <a href="{% url 'Bus_admin:update-single-bus' single_bus.id %}">Update</a> -
+        <a href="{% url 'Bus_admin:delete-single-bus' single_bus.id %}">Delete</a></p>
 
     {%endfor%}
 </div>

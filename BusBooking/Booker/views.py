@@ -2,10 +2,10 @@ from multiprocessing import context
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from Bus_admin.models import Route, SubRoute
+from Bus_admin.models import Route, SubRoute, Seat
 from Customer.models import Booking
 from System_admin.models import  PaymentMethod
-from .models import FinishPayment, FinishPaymentStatus, PaymentInformation
+from .models import FinishPayment, FinishPaymentStatus, PaymentInformation, AssignSeat
 from .forms import  PaymentInformationForm
 from django.contrib.auth.decorators import login_required, permission_required
 from Customer.decorators import allowed_users
@@ -58,12 +58,51 @@ def finishPaymentStatus(request, pk):
         status=request.POST['status'],
 
         )
-        return redirect ('home', pk=request.user.id)
+        return redirect ('Booker:booker-home')
    
     context={'bookings':bookings, 'finishpayment':finishpayment}
     # if request.user != finishpayment.booking.hotel.admin: 
     #        return HttpResponse("You are not allowed here!")
     return render(request, 'Booker/paid_unpaid.html', context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['booker'])
+def assignSeat(request, pk):
+    booking=get_object_or_404(Booking, id=pk)
+    seats=Seat.objects.all()
+    if request.method == 'POST':
+        asign=AssignSeat.objects.create(
+        booking=booking,
+        seat_number=request.POST.get('seat_number'),
+       
+        )
+        return redirect ('Booker:booker-home')
+   
+    context={'booking':booking, 'seats':seats}
+    if request.user != booking.route.route_admin: 
+          return HttpResponse("You are not allowed here!")
+
+    return render(request, 'Booker/assign_seat.html', context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['booker'])
+def editAssignedSeat(request, pk):
+    asigned=get_object_or_404(AssignSeat, booking_id=pk)
+    seats=Seat.objects.all()
+    if request.method == 'POST':
+        asign=AssignSeat.objects.filter(booking_id=pk).update(
+        booking=asigned.booking,
+        seat_number=request.POST.get('seat_number'),
+       
+        )
+        return redirect ('Booker:booker-home')   
+   
+    context={'asigned':asigned, 'seats':seats}
+    if request.user != asigned.booking.route.route_admin: 
+          return HttpResponse("You are not allowed here!")
+
+    return render(request, 'Booker/edit_assign_seat.html', context)
+
 
     """MANAGE PAYMENT INFORMATIONS"""
 @login_required(login_url='login')
@@ -120,6 +159,8 @@ def updatePaymentInfo(request, pk):
         return HttpResponse("You are not allowed here!")
     return render(request, 'Booker/update_payment_info_form.html', context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['booker'])
 def deletePaymentInfo(request, pk):
     payment_info=get_object_or_404(PaymentInformation, id=pk)
     if request.method=='POST':

@@ -23,10 +23,10 @@ class PaymentInformation(models.Model):
     
 class FinishPayment(models.Model):
     booking=models.OneToOneField(Booking, on_delete=models.CASCADE, primary_key=True, related_name="finishpymnt_booking")
-    payment_method=models.ForeignKey(PaymentInformation, on_delete=models.CASCADE, blank=True, null=True)
+    payment_method=models.ForeignKey(PaymentInformation, on_delete=models.CASCADE, null=True)
     paid_by=models.CharField(max_length=255, null=True)
-    transaction_id=models.CharField(max_length=255, null=True)
-    # screenshot=
+    transaction_id=models.CharField(max_length=255, null=True, blank=True)
+    screenshot= models.ImageField(null=True)
     updated=models.DateTimeField(auto_now=True)
     created=models.DateTimeField(auto_now_add=True)
     
@@ -39,5 +39,13 @@ class FinishPaymentStatus(models.Model):
     status=models.BooleanField(default=False, null=True)
     
     def __str__(self):
-        return self.finishpayment
+        return str(self.status)
+    
+    
+class AssignSeat(models.Model):
+     booking=models.OneToOneField(Booking, on_delete=models.CASCADE, primary_key=True, related_name="assign_seat")
+     seat_number=models.CharField(max_length=20, null=True)
+     
+     def __str__(self):
+        return str(self.seat_number)
     

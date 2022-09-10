@@ -9,7 +9,7 @@ def admin_only(view_func):
             group=request.user.groups.all()[0].name
             
         if group=='customer':
-            return redirect('Bus_admin:home')            
+            return redirect('home')            
         if group=='admin':
             return redirect('admin:index')
         if group=='booker':

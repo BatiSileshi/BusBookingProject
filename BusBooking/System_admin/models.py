@@ -15,7 +15,6 @@ class Bus(models.Model):
     name=models.CharField(max_length=255, null=True)
     bus_admin=models.ForeignKey(User, on_delete=models.CASCADE , null=True)
     number_of_buses=models.IntegerField(null=True)
-    about=models.CharField(max_length=255, null=True)
     updated=models.DateTimeField(auto_now=True)
     created=models.DateTimeField(auto_now_add=True)
     
@@ -26,7 +25,7 @@ class Bus(models.Model):
 class PaymentMethod(models.Model):
     name = models.CharField(max_length=55)
     type = models.CharField(max_length=55)
-    # logo = models.ImageField(max_length=55)
+    logo = models.ImageField(max_length=55, null=True)
     description = models.TextField()
     code = models.IntegerField()
     contact = models.IntegerField()

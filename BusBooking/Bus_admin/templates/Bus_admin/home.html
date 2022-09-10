@@ -1,48 +1,64 @@
 {% extends 'bus_admin/bus_admin_main.html'%} {% block content%}
 
-<p>{{request.user.user_type.type}}</p>
+<!-- <p>{{request.user.user_type.type}}</p> -->
 
-<p><a href="{% url 'Bus_admin:add-route' %}">Add Route</a> --- <a href="{% url 'Bus_admin:add-sub-route'  %}">add subroute</a></p>
+<div class="py-4 mx-4">
+    <a href="{% url 'Bus_admin:add-route' %}"><button class="btn btn-primary">Add Routes</button></a>
 
-<div>
-    <table>
-        <tr>
-            <th>Subroute Admin</th>
-            <th>Traveling Bus</th>
-            <th>Traveling Bus Number</th>
-            <th>Main Route</th>
-            <th>Start</th>
-            <th>Destination </th>
-            <th>Via Cities </th>
-            <th>Travel Date </th>
-            <th>Travel Begin Time </th>
-            <th>Travel Distance</th>
-            <th>Travel approximate long</th>
-            <th>Single seat price</th>
-            <th>Travel Facilities</th>
-        </tr>
-        {% for sub_route in sub_routes%} {% for bus in buses%} {% if sub_route.bus.bus == bus%}
-        <tr>
-            <td>{{sub_route.sub_route_admin.username}}</td>
-            <td>{{sub_route.bus.bus.name}}</td>
-            <td>{{sub_route.bus.bus_number}}</td>
-            <td>{{sub_route.main_route.name}}</td>
-            <td>{{sub_route.main_route.start}}</td>
-            <td>{{sub_route.main_route.destination}}</td>
-            <td>{{sub_route.main_route.via_cities}}</td>
-            <td>{{sub_route.main_route.travel_date}}</td>
-            <td>{{sub_route.main_route.travel_begin_time}}</td>
-            <td>{{sub_route.main_route.travel_distance}}</td>
-            <td>{{sub_route.main_route.travel_aproximate_time}}</td>
-            <td>{{sub_route.main_route.single_seat_price}}</td>
-            <td>{{sub_route.main_route.travel_facilities}}</td>
-            <td><a href="{% url 'Bus_admin:update-sub-route' sub_route.id %}">Update SubRoute</a></td>
-            <td><a href="{% url 'Bus_admin:update-route' sub_route.id %}">Update Route</a></td>
-            <td>
-                <a href="{% url 'Bus_admin:delete-sub-route' sub_route.id %}" ">DeleteSubRoute</a>
+
+    <a href="{% url 'Bus_admin:add-sub-route'  %}"><button class="btn btn-primary">Add Sub Routes</button></a>
+
+</div>
+
+
+
+
+<div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+    <table class="table dataTable my-0" id="dataTable">
+        <thead>
+            <tr>
+                <th>Subroute Admin</th>
+                <th>Traveling Bus</th>
+                <th>Traveling Bus Plate & Number</th>
+                <th>Main Route</th>
+                <th>Start</th>
+                <th>Destination </th>
+                <th>Via Cities </th>
+                <th>Travel Date </th>
+                <th>Travel Begin Time </th>
+                <th>Travel Distance</th>
+                <th>Travel approximate long</th>
+                <th>Single seat price</th>
+                <th>Travel Facilities</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sub_route in sub_routes%} {% for bus in buses%} {% if sub_route.bus.bus == bus%}
+            <tr>
+                <td>{{sub_route.sub_route_admin.username}}</td>
+                <td>{{sub_route.bus.bus.name}}</td>
+                <td>{{sub_route.bus.plate_number}} - {{sub_route.bus.bus_number}}</td>
+                <td>{{sub_route.main_route.name}}</td>
+                <td>{{sub_route.main_route.start}}</td>
+                <td>{{sub_route.main_route.destination}}</td>
+                <td>{{sub_route.main_route.via_cities}}</td>
+                <td>{{sub_route.main_route.travel_date}}</td>
+                <td>{{sub_route.main_route.travel_begin_time}}</td>
+                <td>{{sub_route.main_route.travel_distance}}</td>
+                <td>{{sub_route.main_route.travel_aproximate_time}}</td>
+                <td>{{sub_route.main_route.single_seat_price}}</td>
+                <td>{{sub_route.main_route.travel_facilities}}</td>
+                <td><a href="{% url 'Bus_admin:update-sub-route' sub_route.id %}">Update SubRoute</a></td>
+                <td><a href="{% url 'Bus_admin:update-route' sub_route.id %}">Update Route</a></td>
+                <td>
+                    <a href="{% url 'Bus_admin:delete-sub-route' sub_route.id %}" ">DeleteSubRoute</a>
             </td>
         </tr>
         {%endif%} {% endfor %}{% endfor %}
+
+        </tbody>
+
     </table>
 </div>
-{% endblock content%}
+
+ {% endblock content%}

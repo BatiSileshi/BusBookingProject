@@ -6,6 +6,7 @@ from System_admin.models import Bus
 
 class Single_Bus(models.Model):
     bus=models.ForeignKey(Bus, on_delete=models.CASCADE, null=True)
+    plate_number=models.CharField(max_length=200, null=True)
     bus_number=models.CharField(max_length=200, null=True)
     bus_type=models.CharField(max_length=200, null=True)
     bus_detail=models.CharField(max_length=200, null=True)

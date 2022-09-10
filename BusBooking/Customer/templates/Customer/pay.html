@@ -1,42 +1,100 @@
 {% extends 'customer/customermain.html'%} {% block content%}
-<h2>Pay Through</h2>
 
-<div>
-    {% for payment_info in payment_infos %}
 
-    <div> {{ payment_info.payment_method.name }} -- {{payment_info.payment_method.type}} -- {{payment_info.payment_method.description}} -- {{payment_info.payment_method.code}} -- {{payment_info.payment_method.contact}}
-        <hr>
-        <div>
-            {{payment_info.account_holder}} - {{payment_info.account_number}} - {{payment_info.phone_number}}
+
+
+<main id="main">
+
+
+    <section id="service" class="services pt-0">
+        <div class="container">
+
+            <div class="section-header">
+                <span>Pay Through</span>
+                <h2>Pay Through</h2>
+
+            </div>
+
+            <div class="row gy-4">
+                {% for payment_info in payment_infos %}
+                <div class="col-lg-3 col-md-4">
+                    <div class="card">
+                        <h5 class="text-center">{{ payment_info.route.name }}</h5>
+                        <ul>
+                            {% if payment_info.payment_method.logo %}
+                            <img src="{{ payment_info.payment_method.logo.url }}" alt="logo" style="width: 70px; height: 50px;"> {%endif%}
+                            <li>{{payment_info.payment_method.name }}</li>
+                            <li>{{payment_info.payment_method.type}}</li>
+                            <li>{{payment_info.payment_method.description}}</li>
+                            <li>{{payment_info.payment_method.code}}</li>
+                            <li>{{payment_info.payment_method.contact}}</li>
+
+                        </ul>
+                        <hr>
+                        <div>
+                            <p class="fw-bold">Please pay to the following person account</p>
+                            <ul>
+
+                                <li>Account holder: {{payment_info.account_holder}}</li>
+                                <li>Account number/Shortcode: {{payment_info.account_number}}</li>
+                                <li>Phone number: {{payment_info.phone_number}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
 
         </div>
-        <hr>
-        <hr> </div>
-    {%endfor%}
 
-</div>
 
-<div>
-    <form method="POST" action="">
-        {% csrf_token %}
-        <label for="payment_method">Payment Method:</label> <br>
-        <select id="payment_method" name="payment_method">
-        {% for payment_info in payment_infos %} 
-      
-    <option name="payment_method" value="{{payment_info.payment_method.id}}">{{payment_info.payment_method.name}}</option>
-   {%endfor%}
-        </select> <br>
+        <div class="container pt-4" data-aos="fade-up">
 
-        <label for="paid_by">Paid by:</label>
-        <input type="text" class="form-control" id="paid_by" name="paid_by"><br>
+            <div class="col-lg-4 Book card p-2">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
 
-        <label for="transaction_id">Transaction Id:</label>
-        <input type="text" class="form-control" id="transaction_id" name="transaction_id"><br>
+                    <div class="price ">
+                        <span>Total price:</span>
+                        <span>{% widthratio booking.route.single_seat_price 1 booking.seat_quantity %}</span>
+                    </div>
+                    <div>
+                        <label for="payment_method">Payment Method: </label><br>
+                        <small class="fw-bold">Please choose through which payment method you want to pay!</small><br>
+                        <select id="payment_method" name="payment_method">
+                            {% for payment_info in payment_infos %} 
+                          
+                        <option name="payment_method" value="{{payment_info.payment_method.id}}">{{payment_info.payment_method.name}}</option>
+                       {%endfor%}
+                            </select> <br>
+                    </div>
 
-        <input type="submit" value="Submit">
+                    <div>
+                        <label for="paid_by">Paid by: </label>
+                        <input type="text" class="form-control" id="paid_by" name="paid_by" required><br>
+                    </div>
 
-    </form>
-</div>
+                    <div>
+                        <label for="transaction_id">Transaction Id: <small>(optional)</small></label>
+                        <input type="text" class="form-control" id="transaction_id" name="transaction_id"><br>
+                    </div>
 
+                    <div>
+                        <label for="screenshot">Screenshot:</label>
+                        <input type="file" class="form-control" id="screenshot" name="screenshot" required><br>
+                    </div>
+
+                    <div class="text-center mt-2"><button type="submit" class="btn btn-primary">Pay</button></div>
+                </form>
+            </div>
+
+
+
+
+        </div>
+    </section>
+
+</main>
+<!-- End #main -->
 
 {%endblock content%}
